@@ -1,4 +1,4 @@
-package chat.protocol;
+package chat.libs.protocol;
 
 import java.util.regex.Pattern;
 

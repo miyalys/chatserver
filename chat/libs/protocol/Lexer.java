@@ -1,4 +1,4 @@
-package chat.protocol;
+package chat.libs.protocol;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -56,7 +56,6 @@ public class Lexer {
           offset = matcher.end();
         }
       }
-
     }
 
     return tokensFound;
