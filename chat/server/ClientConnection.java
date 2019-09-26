@@ -5,13 +5,20 @@ import java.net.*;
 
 import chat.libs.protocol.Lexer;
 
-public class ClientConnection {
+public class ClientConnection implements Runnable {
 
-  public void createClientConnection (int port) {
+  private int port = 6666;
+
+  public ClientConnection(int port) {
+    this.port = port;
+  }
+
+  public void run() {
     try (
       var ss = new ServerSocket(port);
       Socket s=ss.accept(); //establishes connection
-      var dis=new DataInputStream(s.getInputStream());
+      var dis = new DataInputStream(s.getInputStream());
+      var dos = new DataOutputStream(s.getOutputStream());
       ){
 
       while (true) {

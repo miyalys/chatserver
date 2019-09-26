@@ -33,7 +33,12 @@ public class StaticLib {
   }
 
   /**
-    *
+    *Some Unicode character ranges that contain digits:
+    '\u0030' through '\u0039', ISO-LATIN-1 digits ('0' through '9')
+    '\u0660' through '\u0669', Arabic-Indic digits
+    '\u06F0' through '\u06F9', Extended Arabic-Indic digits
+    '\u0966' through '\u096F', Devanagari digits
+    '\uFF10' through '\uFF19', Fullwidth digits
     * @param  name desc
     * @param  name desc
     * @return      desc
@@ -45,6 +50,42 @@ public class StaticLib {
       }
     }
     return true;
+  }
+
+  public static boolean isArabicNumericalValue(String input) {
+    if ( input.matches("[^0-9]") ) return false;
+    else return true;
+  }
+
+  public static boolean isValidUserName(String input) {
+    if ( input.length() > 12 || input.matches("[^a-zA-Z0-9_\\-]") ) return false;
+    else return true;
+  }
+
+  /**
+  A character is considered to be a letter if its general category type, provided by getType(ch), is any of the following:
+  UPPERCASE_LETTER
+  LOWERCASE_LETTER
+  TITLECASE_LETTER
+  MODIFIER_LETTER: General category "Lm" in the Unicode specification: https://www.compart.com/en/unicode/category/Lm
+  OTHER_LETTER: General category "Lo" in the Unicode specification: https://www.compart.com/en/unicode/category/Lo
+  */
+  public static boolean isOnlyLetter(String input) {
+    for (int i = 0; i < input.length(); i++) {
+      if (!Character.isLetter(input.charAt(i))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public static boolean isOnlyLatinLetter(String input) {
+    if ( input.matches("[^a-zA-Z]") ) return false;
+    else return true;
+  }
+
+  public static boolean isLatinArabicAlphaNumeric(String input) {
+    return ( isLatinArabicAlphaNumeric(input) && isOnlyLatinLetter(input) );
   }
 
   /**

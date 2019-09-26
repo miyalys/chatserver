@@ -21,21 +21,30 @@ public class ChatClient {
 
     String input = scanner.nextLine();
 
+    if (!StaticLib.isValidUserName(input) ) {
+      System.out.println("Username invalid, try again.");
+    }
+
     var lexer = new Lexer();
    
     try (
         Socket s=new Socket(IP, 6666);  // No need to run on a custom port?
-        DataOutputStream dout=new DataOutputStream(s.getOutputStream());
+        var dos = new DataOutputStream(s.getOutputStream());
+        var dis = new DataInputStream(s.getInputStream());
       ) {
    
       while (! (input = scanner.nextLine()).equals("quit") ) {
        
-        dout.writeUTF(input);
-        dout.flush();
+        dos.writeUTF(input);
+        dos.flush();
       }
+      // Say properly farewell to the server
+      dos.writeUTF("QUIT");
+      dos.flush();
     }
-
-    catch(Exception e){System.out.println(e);}
-
+    // Connection lost
+    catch(Exception e){ 
+      System.out.println(e);
+    }
   }
 }
