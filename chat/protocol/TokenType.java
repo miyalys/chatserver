@@ -1,4 +1,5 @@
-import java.util.Optional;
+package chat.protocol;
+
 import java.util.regex.Pattern;
 
 public class TokenType {
@@ -7,24 +8,22 @@ public class TokenType {
 	private Pattern regex;
 	private boolean serverOnly;
 
-  public TokenType(String name, Pattern regex, boolean server) {
+  public TokenType(String name, Pattern regex, boolean serverOnly) {
     this.name = name;
 		this.regex = regex;
-		this.serverOnly = Optional.of(server);
+		this.serverOnly = serverOnly;
   }
 
-  // Should I not set the Option, or explicitly set it to some empty value? What is default?
   public TokenType(String name, Pattern regex) {
     this.name = name;
 		this.regex = regex;
-		//this.server = Optional.empty();
   }
 
   public Pattern getPattern() {
     return regex;
   }
 
-  public boolean getServer() {
-    return server;
+  public boolean getServerOnly() {
+    return serverOnly;
   }
 }

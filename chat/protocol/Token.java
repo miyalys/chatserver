@@ -1,3 +1,5 @@
+package chat.protocol;
+
 public class Token {
     
   private TokenType type;

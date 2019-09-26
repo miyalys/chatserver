@@ -1,11 +1,18 @@
+package chat.client;
+
+import java.util.Scanner;
 import java.io.*;   
 import java.net.*;   
 
+import chat.protocol.Lexer;
+
 public class ChatClient {   
 
-  private static int IP = "localhost";
+  private static String IP = "localhost";
  
   public static void main(String[] args) {   
+
+    var lexer = new Lexer();
    
     try {
      
@@ -14,11 +21,17 @@ public class ChatClient {
       DataOutputStream  
        
       dout=new DataOutputStream(s.getOutputStream());   
+      var scanner = new Scanner(System.in);
+
+      String input;
+
+      while (! (input = scanner.nextLine()).equals("quit") ) {
        
-      dout.writeUTF("Hello Server");   
-       
-      dout.flush();   
-      dout.close();   
+        dout.writeUTF(input);   
+         
+        dout.flush();   
+      }
+      dout.close();
       s.close();   
     }
    
