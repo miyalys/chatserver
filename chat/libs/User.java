@@ -10,7 +10,12 @@ public class User {
    	this.userName = userName;
    	this.port = port;
    	this.heartbeat = heartbeat;
-  } 
+  }
+
+  public User(int port) {
+    this.port = port;
+    // heartbeat too?
+  }
 
   public String getUserName() {
     return userName;

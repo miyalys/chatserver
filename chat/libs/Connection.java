@@ -1,4 +1,4 @@
-package chat.server;
+package chat.libs;
 
 import java.io.*;
 import java.net.*;
@@ -9,6 +9,10 @@ public class Connection {
   public Socket socket;
   public DataInputStream dataInputStream;
   public DataOutputStream dataOutputStream;
+
+  public Connection() {
+    this(6666);
+  }
 
   public Connection(int port) {
 
@@ -25,13 +29,17 @@ public class Connection {
       System.out.println(e);
     }
     finally {
-      try {
-        serverSocket.close(); 
-        socket.close();
-        dataInputStream.close();
-        dataOutputStream.close();
-      }
-      catch (IOException e) {System.out.println(e);}
+      close();
     }
+  }
+
+  public void close() {
+    try {
+      serverSocket.close(); 
+      socket.close();
+      dataInputStream.close();
+      dataOutputStream.close();
+    }
+    catch (IOException e) {System.out.println(e);}
   }
 }
