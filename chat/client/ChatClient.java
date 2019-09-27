@@ -6,6 +6,7 @@ import java.net.*;
 
 import chat.libs.protocol.Lexer;
 import chat.libs.StaticLib;
+import chat.libs.Connection;
 
 public class ChatClient { 
 
@@ -27,25 +28,37 @@ public class ChatClient {
 
     var lexer = new Lexer();
     // TODO: Actually use/test Lexer
-   
-    try (
-        Socket s=new Socket(IP, 6666);  // No need to run on a custom port?
-        var dos = new DataOutputStream(s.getOutputStream());
-        var dis = new DataInputStream(s.getInputStream());
-      ) {
-   
-      while (! (input = scanner.nextLine()).equals("quit") ) {
-       
-        dos.writeUTF(input);
-        dos.flush();
-      }
-      // Say properly farewell to the server
-      dos.writeUTF("QUIT");
-      dos.flush();
+    
+    Connection conInit = new Connection(false);
+    int port = 0;
+
+    try {
+      String sport = conInit.dataInputStream.readUTF();
+      port = Integer.parseInt(sport);
     }
-    // Connection lost...or?
-    catch(Exception e){ 
-      System.out.println(e);
+    catch(IOException e) { System.out.println(e); } // This connection should be closed by the server so this exception happening is fine
+
+    if (port == 0) {
+      System.out.println("Server Error");
+    }
+    else {
+      Connection con = new Connection(port, false);
+     
+      try {
+     
+        while (! (input = scanner.nextLine()).equals("quit") ) {
+         
+          con.dataOutputStream.writeUTF(input);
+          con.dataOutputStream.flush();
+        }
+        // Say properly farewell to the server
+        con.dataOutputStream.writeUTF("QUIT");
+        con.dataOutputStream.flush();
+      }
+      // Connection lost...or?
+      catch(IOException e){ 
+        System.out.println(e);
+      }
     }
   }
 }

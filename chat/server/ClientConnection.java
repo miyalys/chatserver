@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 
 import chat.libs.protocol.Lexer;
+import chat.libs.Connection;
 
 public class ClientConnection implements Runnable {
 
@@ -13,12 +14,8 @@ public class ClientConnection implements Runnable {
     this.port = port;
   }
 
-  public ClientConnection() {
-    this.port = 6666;
-  }
-
   public void run() {
-      Connection con = new Connection();
+      Connection con = new Connection(port, true);
 
       while (true) {
         String str = "";

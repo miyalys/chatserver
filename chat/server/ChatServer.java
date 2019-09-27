@@ -19,18 +19,23 @@ public class ChatServer {
   private static final Object lock = new Object();
 
   private static List<User> users = new ArrayList<>();
-  private static List<Integer> ports = new ArrayList<>( Arrays.asList(6666,6667,6668,6669,6670) );
+  private static List<Integer> ports = new ArrayList<>( Arrays.asList(6667,6668,6669,6670,6671) );
 
   public static void main(String[] args){
 
-    Connection conn = new Connection();
+    // Initial connection, find an available port, send it to the user and close the port
+    Connection conInit = new Connection(true);
+    int port = getAvailablePort();
     try {
-      conn.dataOutputStream.writeUTF( Integer.toString( getAvailablePort() ) );
+      conInit.dataOutputStream.writeUTF( Integer.toString( port ) );
+      conInit.dataOutputStream.flush();
+      conInit.dataOutputStream.close();
     }
     catch(IOException e) {System.out.println(e);}
     
+    // Spawn a new thread for that user on the found port
     ExecutorService threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-    threadPool.submit( new ClientConnection() );
+    threadPool.submit( new ClientConnection(port) );
   }
 
 

@@ -5,20 +5,26 @@ import java.net.*;
 
 public class Connection {
 
+  // Made public mostly temporarily for ease of use while testing
   public ServerSocket serverSocket;
   public Socket socket;
   public DataInputStream dataInputStream;
   public DataOutputStream dataOutputStream;
 
-  public Connection() {
-    this(6666);
+  public Connection(boolean server) {
+    this(6666, server);
   }
 
-  public Connection(int port) {
+  public Connection(int port, boolean server) {
 
     try {
-      serverSocket = new ServerSocket(port);
-      socket = serverSocket.accept(); //establishes connection
+
+      if (server) {
+        serverSocket = new ServerSocket(port);
+        socket = serverSocket.accept(); //establishes connection
+      }
+      else socket = new Socket("localhost", port);   
+
       dataInputStream = new DataInputStream(socket.getInputStream());
       dataOutputStream = new DataOutputStream(socket.getOutputStream());
     }
@@ -29,16 +35,17 @@ public class Connection {
       System.out.println(e);
     }
     finally {
-      close();
+      close(server);
     }
   }
 
-  public void close() {
+  public void close(boolean server) {
     try {
-      serverSocket.close(); 
       socket.close();
       dataInputStream.close();
       dataOutputStream.close();
+
+      if (server) serverSocket.close(); 
     }
     catch (IOException e) {System.out.println(e);}
   }
