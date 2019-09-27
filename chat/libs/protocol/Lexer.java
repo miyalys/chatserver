@@ -22,7 +22,7 @@ public class Lexer {
     TOKEN_TYPES.add( new TokenType("list", Pattern.compile("/\\bLIST\\b/"), true) );
 
     // Both client and server
-    TOKEN_TYPES.add( new TokenType("ip",       Pattern.compile("/\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b/") ) ); // server_ip
+    TOKEN_TYPES.add( new TokenType("ip",       Pattern.compile("/\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b/") ) ); // server_ip. 255.255.255.255 or something above 255 is not really valid but whatever for now.
     TOKEN_TYPES.add( new TokenType("err_code", Pattern.compile("/\\b\\d+\\b/") ) ); // port or err_code
     TOKEN_TYPES.add( new TokenType("string",   Pattern.compile("/\\b[a-zA-Z0-9_-]+\\b/") ) ); // user_name, message or err_msg
   }
@@ -36,8 +36,7 @@ public class Lexer {
     for (Token t : tokens) {
       if ( t.getType().getServerOnly() ) return true; 
     }
-    // If no tokens are server only
-    return false;
+    return false; // If no tokens are server only
   }
 
 

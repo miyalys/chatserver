@@ -1,6 +1,7 @@
 package chat.server;
 
-public class Logger {
+// Drop and use 
+public class OldLogger {
 
   // From assignment:
   // Enable the system to log transaktions <<timestamp>> + <<request>> and <<timestamp>> + <<response>>

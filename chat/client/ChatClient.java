@@ -26,6 +26,7 @@ public class ChatClient {
     }
 
     var lexer = new Lexer();
+    // TODO: Actually use/test Lexer
    
     try (
         Socket s=new Socket(IP, 6666);  // No need to run on a custom port?
@@ -42,7 +43,7 @@ public class ChatClient {
       dos.writeUTF("QUIT");
       dos.flush();
     }
-    // Connection lost
+    // Connection lost...or?
     catch(Exception e){ 
       System.out.println(e);
     }

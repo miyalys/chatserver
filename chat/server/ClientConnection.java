@@ -16,15 +16,15 @@ public class ClientConnection implements Runnable {
   public void run() {
     try (
       var ss = new ServerSocket(port);
-      Socket s=ss.accept(); //establishes connection
+      Socket s = ss.accept(); //establishes connection
       var dis = new DataInputStream(s.getInputStream());
       var dos = new DataOutputStream(s.getOutputStream());
       ){
 
       while (true) {
-        String str=(String)dis.readUTF();
+        String str = dis.readUTF();
 
-        System.out.println("Message: "+str);
+        System.out.println("Message: " + str);
       }
 
     }

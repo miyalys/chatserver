@@ -1,3 +1,5 @@
+package chat.libs;
+
 public class User {
    
 	private String userName;
