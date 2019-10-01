@@ -6,16 +6,17 @@ import java.net.*;
 import chat.libs.protocol.Lexer;
 import chat.libs.Connection;
 
+
 public class ClientConnection implements Runnable {
 
-  private int port;
+  private Socket socket;
 
-  public ClientConnection(int port) {
-    this.port = port;
+  public ClientConnection(Socket socket) {
+    this.socket = socket;
   }
 
   public void run() {
-      Connection con = new Connection(port, true);
+      Connection con = new Connection(socket);
 
       while (true) {
         String str = "";

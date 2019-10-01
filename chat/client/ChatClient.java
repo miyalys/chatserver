@@ -14,6 +14,7 @@ public class ChatClient {
  
   public static void main(String[] args) {
     var scanner = new Scanner(System.in);
+    var port = 6666;
 
     StaticLib.clearScreen();
 
@@ -29,39 +30,28 @@ public class ChatClient {
     var lexer = new Lexer();
     // TODO: Actually use/test Lexer
     
-    System.out.println("Before conInit");
-    Connection conInit = new Connection(false);
-    System.out.println("After conInit");
-    int port = 0;
+    System.out.println("Before con");
+    Connection con = null;
+    try {
+      con = new Connection(new Socket("localhost", port) );
+    }
+    catch (IOException e) {e.printStackTrace();}
+    System.out.println("After con");
 
     try {
-      port = conInit.in.readInt();
-    }
-    catch(IOException e) { System.out.println("readInt failed: " + e); } // This connection should be closed by the server so this exception happening is fine
-
-    if (port == 0) {
-      System.out.println("Server Error: Didn't receive port");
-    }
-    else {
-      System.out.println("new port: " + port);
-      conInit.close(false);
-      Connection con = new Connection(port, false);
-     
-      try {
-     
-        while (! (input = scanner.nextLine()).equals("quit") ) {
-         
-          con.out.writeUTF(input);
-          con.out.flush();
-        }
-        // Say properly farewell to the server
-        con.out.writeUTF("QUIT");
+   
+      while (! (input = scanner.nextLine()).equals("quit") ) {
+       
+        con.out.writeUTF(input);
         con.out.flush();
       }
-      // Connection lost...or?
-      catch(IOException e){ 
-        System.out.println(e);
-      }
+      // Say properly farewell to the server
+      con.out.writeUTF("QUIT");
+      con.out.flush();
+    }
+    // Connection lost...or?
+    catch(IOException e){ 
+      System.out.println(e);
     }
   }
 }

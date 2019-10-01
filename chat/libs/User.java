@@ -1,28 +1,30 @@
 package chat.libs;
 
+import java.net.Socket;
+
 public class User {
    
 	private String userName;
-	private int port;
+	private Socket sock;
 	private int heartbeat;
 
-  public User(String userName, int port, int heartbeat) {
+  public User(String userName, Socket sock, int heartbeat) {
    	this.userName = userName;
-   	this.port = port;
-   	this.heartbeat = heartbeat;
+   	this.sock = sock;
+   	this.heartbeat = 0;
   }
 
-  public User(int port) {
-    this.port = port;
-    // heartbeat too?
+  public User(Socket sock) {
+    this.sock = sock;
+    this.heartbeat = 0;
   }
 
   public String getUserName() {
     return userName;
   }
 
-  public int getPort() {
-    return port;
+  public Socket getSocket() {
+    return sock;
   }
 
   public int getHeartbeat() {
@@ -33,8 +35,8 @@ public class User {
     this.userName = userName;
   }
 
-  public void setPort(int port) {
-    this.port = port;
+  public void setSocket(Socket sock) {
+    this.sock = sock;
   }
 
   public void setHeartbeat(int heartbeat) {

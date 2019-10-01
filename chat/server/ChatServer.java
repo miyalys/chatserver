@@ -13,46 +13,40 @@ import chat.libs.Connection;
 import java.util.Optional;
 import java.io.IOException;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+
 
 public class ChatServer {
 
   private static final Object lock = new Object();
-
   private static List<User> users = new ArrayList<>();
-  private static List<Integer> ports = new ArrayList<>( Arrays.asList(6667,6668,6669,6670,6671) );
+  private static final int PORT = 5555;
 
   public static void main(String[] args){
 
     ExecutorService threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
 
-    // Initial connection, find an available port, send it to the user and close the port
-    // System.out.println("Before conInit");
-    while (ports.size() != 0) {
-      Connection conInit = new Connection(true);
-       System.out.println("After conInit: Found a new client!");
-      int newPort = getAvailablePort();
-      try {
-        conInit.out.writeInt( newPort );
-        // System.out.println("About to flush");
-        conInit.out.flush();
-      }
-      catch(IOException e) {e.printStackTrace();}
-      finally { 
+    ServerSocket serverSocket = null;
+    Socket socket = null;
+    try {
+      serverSocket = new ServerSocket(PORT);
+    }
+    catch (IOException e) {e.printStackTrace(); }
+
+    // System.out.println("Before con");
+    while (users.size() <= 5) {
+
+      synchronized(serverSocket) {
         try {
-          conInit.out.close();
-          conInit.in.close();
-          conInit.close();
+          socket = serverSocket.accept(); //establishes connection
         }
         catch (IOException e) { e.printStackTrace(); }
       }
+      System.out.println("After con: Found a new client!");
 
-      //try {
-      //  conInit.out.close();
-      //}
-      //catch(IOException e) {System.out.println("not woot" + e);}
-      
-      // Spawn a new thread for that user on the found port
-      threadPool.submit( new ClientConnection(newPort) );
+      // Spawn a new thread for that user
+      threadPool.submit( new ClientConnection(socket) );
     }
   }
 
@@ -87,13 +81,5 @@ public class ChatServer {
       }
       return Optional.empty(); // In case no user by that name was found.
     }
-  }
-
-  public static int getAvailablePort() {
-    return ports.remove(0);
-  }
-
-  public static void makePortAvailable(int port) {
-    ports.add(port); 
   }
 }
