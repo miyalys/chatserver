@@ -23,19 +23,37 @@ public class ChatServer {
 
   public static void main(String[] args){
 
-    // Initial connection, find an available port, send it to the user and close the port
-    Connection conInit = new Connection(true);
-    int port = getAvailablePort();
-    try {
-      conInit.dataOutputStream.writeUTF( Integer.toString( port ) );
-      conInit.dataOutputStream.flush();
-      conInit.dataOutputStream.close();
-    }
-    catch(IOException e) {System.out.println(e);}
-    
-    // Spawn a new thread for that user on the found port
     ExecutorService threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-    threadPool.submit( new ClientConnection(port) );
+
+    // Initial connection, find an available port, send it to the user and close the port
+    // System.out.println("Before conInit");
+    while (ports.size() != 0) {
+      Connection conInit = new Connection(true);
+       System.out.println("After conInit: Found a new client!");
+      int newPort = getAvailablePort();
+      try {
+        conInit.out.writeInt( newPort );
+        // System.out.println("About to flush");
+        conInit.out.flush();
+      }
+      catch(IOException e) {e.printStackTrace();}
+      finally { 
+        try {
+          conInit.out.close();
+          conInit.in.close();
+          conInit.close();
+        }
+        catch (IOException e) { e.printStackTrace(); }
+      }
+
+      //try {
+      //  conInit.out.close();
+      //}
+      //catch(IOException e) {System.out.println("not woot" + e);}
+      
+      // Spawn a new thread for that user on the found port
+      threadPool.submit( new ClientConnection(newPort) );
+    }
   }
 
 

@@ -8,14 +8,16 @@ public class Connection {
   // Made public mostly temporarily for ease of use while testing
   public ServerSocket serverSocket;
   public Socket socket;
-  public DataInputStream dataInputStream;
-  public DataOutputStream dataOutputStream;
+  public DataInputStream in;
+  public DataOutputStream out;
+  public int port;
 
   public Connection(boolean server) {
     this(6666, server);
   }
 
   public Connection(int port, boolean server) {
+    this.port = port;
 
     try {
 
@@ -25,28 +27,37 @@ public class Connection {
       }
       else socket = new Socket("localhost", port);   
 
-      dataInputStream = new DataInputStream(socket.getInputStream());
-      dataOutputStream = new DataOutputStream(socket.getOutputStream());
+      in = new DataInputStream(socket.getInputStream());
+      out = new DataOutputStream(socket.getOutputStream());
+
+      System.out.println("Connection running!");
     }
     catch(EOFException e) {
       // Handling when client connection closed (can be voluntary or not)
+      System.out.println("EOF: " + e);
+      //close(server);
     }
     catch(IOException e) {
-      System.out.println(e);
+      System.out.println("IO: " +e);
+      //close(server);
+    }
+    catch(Exception e) {
+      System.out.println("Other error: " + e);
     }
     finally {
-      close(server);
+      System.out.println("Finally!");
+      //close(server);
     }
   }
 
   public void close(boolean server) {
     try {
+      in.close();
+      out.close();
       socket.close();
-      dataInputStream.close();
-      dataOutputStream.close();
 
       if (server) serverSocket.close(); 
     }
-    catch (IOException e) {System.out.println(e);}
+    catch (IOException e) {System.out.println("Closing: " + e);}
   }
 }

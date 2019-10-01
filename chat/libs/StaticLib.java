@@ -53,13 +53,11 @@ public class StaticLib {
   }
 
   public static boolean isArabicNumericalValue(String input) {
-    if ( input.matches("[^0-9]") ) return false;
-    else return true;
+    return ( !input.matches("[^0-9]") );
   }
 
   public static boolean isValidUserName(String input) {
-    if ( input.length() > 12 || input.matches("[^a-zA-Z0-9_\\-]") ) return false;
-    else return true;
+    return ( input.length() <= 12 || !input.matches("[^a-zA-Z0-9_\\-]") );
   }
 
   /**
@@ -70,7 +68,7 @@ public class StaticLib {
   MODIFIER_LETTER: General category "Lm" in the Unicode specification: https://www.compart.com/en/unicode/category/Lm
   OTHER_LETTER: General category "Lo" in the Unicode specification: https://www.compart.com/en/unicode/category/Lo
   */
-  public static boolean isOnlyLetter(String input) {
+  public static boolean hasOnlyLetters(String input) {
     for (int i = 0; i < input.length(); i++) {
       if (!Character.isLetter(input.charAt(i))) {
         return false;
@@ -79,13 +77,13 @@ public class StaticLib {
     return true;
   }
 
-  public static boolean isOnlyLatinLetter(String input) {
-    if ( input.matches("[^a-zA-Z]") ) return false;
-    else return true;
+  public static boolean hasOnlyLatinLetters(String input) {
+    return ( !input.matches("[^a-zA-Z]") );
   }
 
-  public static boolean isLatinArabicAlphaNumeric(String input) {
-    return ( isLatinArabicAlphaNumeric(input) && isOnlyLatinLetter(input) );
+  // Apparently alphanumeric implies latin characters and arabic numerals
+  public static boolean isAlphaNumeric(String input) {
+    return ( isAlphaNumeric(input) && hasOnlyLatinLetters(input) );
   }
 
   /**

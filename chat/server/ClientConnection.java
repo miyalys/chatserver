@@ -20,7 +20,7 @@ public class ClientConnection implements Runnable {
       while (true) {
         String str = "";
         try {
-          str = con.dataInputStream.readUTF();
+          str = con.in.readUTF();
         }
         catch(IOException e) {System.out.println(e);}
 

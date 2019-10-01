@@ -29,31 +29,34 @@ public class ChatClient {
     var lexer = new Lexer();
     // TODO: Actually use/test Lexer
     
+    System.out.println("Before conInit");
     Connection conInit = new Connection(false);
+    System.out.println("After conInit");
     int port = 0;
 
     try {
-      String sport = conInit.dataInputStream.readUTF();
-      port = Integer.parseInt(sport);
+      port = conInit.in.readInt();
     }
-    catch(IOException e) { System.out.println(e); } // This connection should be closed by the server so this exception happening is fine
+    catch(IOException e) { System.out.println("readInt failed: " + e); } // This connection should be closed by the server so this exception happening is fine
 
     if (port == 0) {
-      System.out.println("Server Error");
+      System.out.println("Server Error: Didn't receive port");
     }
     else {
+      System.out.println("new port: " + port);
+      conInit.close(false);
       Connection con = new Connection(port, false);
      
       try {
      
         while (! (input = scanner.nextLine()).equals("quit") ) {
          
-          con.dataOutputStream.writeUTF(input);
-          con.dataOutputStream.flush();
+          con.out.writeUTF(input);
+          con.out.flush();
         }
         // Say properly farewell to the server
-        con.dataOutputStream.writeUTF("QUIT");
-        con.dataOutputStream.flush();
+        con.out.writeUTF("QUIT");
+        con.out.flush();
       }
       // Connection lost...or?
       catch(IOException e){ 
