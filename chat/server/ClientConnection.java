@@ -25,7 +25,7 @@ public class ClientConnection implements Runnable {
         }
         catch(IOException e) {System.out.println(e);}
 
-        System.out.println("Message: " + str);
+        System.out.println(str);
       }
     
   }

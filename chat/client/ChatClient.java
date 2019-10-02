@@ -11,23 +11,35 @@ import chat.libs.Connection;
 public class ChatClient { 
 
   private static String IP = "localhost";
+	private static Scanner scanner;
+
+  // Move to staticlib or someone else? together with isValidUserName at least.
+  private static String getUserName() {
+
+    System.out.println("Please type in your username.");
+    
+    String input = scanner.nextLine();
+
+    while (!StaticLib.isValidUserName(input) ) {
+			System.out.println("Invalid user name. The user name may only contain letters, numbers, - and _.");
+			System.out.println("Please type in another one:");
+			input = scanner.nextLine();
+    }
+		System.out.println(input);
+		return input;
+  }
  
   public static void main(String[] args) {
 
-    var scanner = new Scanner(System.in);
+    scanner = new Scanner(System.in);
     var port = 6666;
     Connection con = null;
 
     StaticLib.clearScreen();
 
     System.out.println("MCON: Your favourite chat client.");
-    System.out.println("Please type in your username.");
 
-    String input = scanner.nextLine();
-
-    if (!StaticLib.isValidUserName(input) ) {
-      System.out.println("Username invalid, try again.");
-    }
+		var userName = getUserName();
 
     var lexer = new Lexer();
     // TODO: Actually use/test Lexer
@@ -40,10 +52,11 @@ public class ChatClient {
     System.out.println("After con");
 
     try {
+			String input;
    
       while (! (input = scanner.nextLine()).equals("quit") ) {
        
-        con.out.writeUTF(input);
+        con.out.writeUTF("DATA " + userName + ": " + input);
         con.out.flush();
       }
       // Say properly farewell to the server

@@ -57,7 +57,7 @@ public class StaticLib {
   }
 
   public static boolean isValidUserName(String input) {
-    return ( input.length() <= 12 || !input.matches("[^a-zA-Z0-9_\\-]") );
+    return ( input.length() <= 12 && !input.matches("[^a-zA-Z0-9_\\-]") );
   }
 
   /**
@@ -78,12 +78,12 @@ public class StaticLib {
   }
 
   public static boolean hasOnlyLatinLetters(String input) {
-    return ( !input.matches("[^a-zA-Z]") );
+    return !input.matches("[^a-zA-Z]");
   }
 
   // Apparently alphanumeric implies latin characters and arabic numerals
   public static boolean isAlphaNumeric(String input) {
-    return ( isAlphaNumeric(input) && hasOnlyLatinLetters(input) );
+    return ( isArabicNumericalValue(input) && hasOnlyLatinLetters(input) );
   }
 
   /**
