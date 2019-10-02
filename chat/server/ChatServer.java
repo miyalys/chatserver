@@ -21,14 +21,14 @@ public class ChatServer {
 
   private static final Object lock = new Object();
   private static List<User> users = new ArrayList<>();
-  private static final int PORT = 5555;
+  private static final int PORT = 6666;
 
   public static void main(String[] args){
 
     ExecutorService threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-
     ServerSocket serverSocket = null;
     Socket socket = null;
+
     try {
       serverSocket = new ServerSocket(PORT);
     }
@@ -39,7 +39,7 @@ public class ChatServer {
 
       synchronized(serverSocket) {
         try {
-          socket = serverSocket.accept(); //establishes connection
+          socket = serverSocket.accept(); // establishes connection
         }
         catch (IOException e) { e.printStackTrace(); }
       }

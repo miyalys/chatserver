@@ -25,14 +25,8 @@ public class Connection {
 
       System.out.println("Connection running!");
     }
-    catch(EOFException e) {
-      // Handling when client connection closed (can be voluntary or not)
-      System.out.println("EOF: " + e);
-      //close();
-    }
     catch(IOException e) {
       System.out.println("IO: " +e);
-      //close();
     }
     finally {
       System.out.println("Finally!");

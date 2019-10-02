@@ -13,8 +13,10 @@ public class ChatClient {
   private static String IP = "localhost";
  
   public static void main(String[] args) {
+
     var scanner = new Scanner(System.in);
     var port = 6666;
+    Connection con = null;
 
     StaticLib.clearScreen();
 
@@ -31,7 +33,6 @@ public class ChatClient {
     // TODO: Actually use/test Lexer
     
     System.out.println("Before con");
-    Connection con = null;
     try {
       con = new Connection(new Socket("localhost", port) );
     }
