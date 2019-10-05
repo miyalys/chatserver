@@ -1,5 +1,5 @@
-# 1st letter: c = compile, r = run
-# 2nd letter: c = client, l = libs, s = server
+# 1st letter: c = compile, r = run, t = test
+# 2nd letter: c = client, l = libs, s = server, le = lexer
 
 crs: all rs
 
@@ -22,3 +22,7 @@ cc:
 
 cs:
 	javac12 chat/server/*.java
+
+tle:
+	java12 chat/libs/protocol/LexerTester
+	cat tokens.txt

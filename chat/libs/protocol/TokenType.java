@@ -19,6 +19,10 @@ public class TokenType {
 		this.regex = regex;
   }
 
+  public String getName() {
+    return name;
+  }
+
   public Pattern getPattern() {
     return regex;
   }
