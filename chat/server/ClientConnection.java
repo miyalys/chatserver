@@ -6,27 +6,29 @@ import java.net.*;
 import chat.libs.protocol.Lexer;
 import chat.libs.Connection;
 
-
+// TODO: Maybe call this class ClientHandler to separate it from Connection?
 public class ClientConnection implements Runnable {
 
-  private Socket socket;
+  private final Socket socket;
 
   public ClientConnection(Socket socket) {
     this.socket = socket;
   }
 
   public void run() {
-      Connection con = new Connection(socket);
+    Connection con = new Connection(socket);
 
-      while (true) {
-        String str = "";
-        try {
-          str = con.in.readUTF();
-        }
-        catch(IOException e) {System.out.println(e);}
-
+    while (true) {
+      try {
+        String str = con.in.readUTF();
         System.out.println(str);
+      } catch (EOFException e) {
+        System.out.println("Client with socket " + socket + " closed the connection.");
+        return;
+      } catch (IOException e) {
+        e.printStackTrace();
+        return;
       }
-    
+    }
   }
 }
