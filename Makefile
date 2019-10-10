@@ -1,7 +1,8 @@
-# 1st letter: c = compile, r = run, t = test
+# 1st letter: c = compile, r = run
 # 2nd letter: c = client, l = libs, s = server, le = lexer
 
 CC = javac12
+J = java12
 
 crs: all rs
 
@@ -9,22 +10,25 @@ crc: all rc
 
 all: cl cc cs
 
-rc:
-	$(CC) chat/client/ChatClient.java
+cs:
+	$(CC) chat/server/*.java
 
-rs:
-	$(CC) chat/server/ChatServer.java
+cc:
+	$(CC) chat/client/*.java
 
 cl:
 	$(CC) chat/libs/protocol/*.java
 	$(CC) chat/libs/*.java
 
-cc:
-	$(CC) chat/client/*.java
-
-cs:
-	$(CC) chat/server/*.java
-
-tle:
+cle:
 	$(CC) chat/libs/protocol/LexerTester.java
+
+rs:
+	$(J) chat/server/ChatServer
+
+rc:
+	$(J) chat/client/ChatClient
+
+rle:
+	$(J) chat/libs/protocol/LexerTester
 	cat tokens.txt

@@ -51,7 +51,7 @@ public class ChatServer {
         System.out.println("A new connection from " + clientSocket + "!");
 
         // Spawn a new thread for that user
-        threadPool.submit(new ClientConnection(clientSocket));
+        threadPool.submit(new ClientHandler(clientSocket));
       } catch (IOException e) {
         e.printStackTrace();
       }

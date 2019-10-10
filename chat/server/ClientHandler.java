@@ -7,11 +7,11 @@ import chat.libs.protocol.Lexer;
 import chat.libs.Connection;
 
 // TODO: Maybe call this class ClientHandler to separate it from Connection?
-public class ClientConnection implements Runnable {
+public class ClientHandler implements Runnable {
 
   private final Socket socket;
 
-  public ClientConnection(Socket socket) {
+  public ClientHandler(Socket socket) {
     this.socket = socket;
   }
 
