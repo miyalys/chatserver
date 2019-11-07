@@ -8,6 +8,8 @@ crs: all rs
 
 crc: all rc
 
+crl: cle rle
+
 all: cl cc cs
 
 cs:

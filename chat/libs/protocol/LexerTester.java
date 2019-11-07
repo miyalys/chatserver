@@ -13,13 +13,14 @@ public class LexerTester {
     System.out.println("Running Lexer Tester");
 
     String testText1 = "DATA mjav:woot 123 ";
-    String testText2 = "mjav";
-    String testText3 = " JOIN ";
+    String testText2 = "DATA mjav ";
+    String testText3 = "mjav";
+    String testText4 = " JOIN ";
     Lexer l = new Lexer();   
 
     System.out.println("About to Lex");
 
-    List<Token> tokens = l.lex(testText1);
+    List<Token> tokens = l.lex(testText2);
 
     if (tokens == null) {
       System.out.println("The input is a different language than the one expressed by the token types.");

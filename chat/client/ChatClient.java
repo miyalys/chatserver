@@ -28,7 +28,19 @@ public class ChatClient {
 		System.out.println(input);
 		return input;
   }
- 
+
+  private class readFromServer implements Runnable {
+    private Connection con;
+
+    public readFromServer(Connection con) {
+      this.con = con;
+    }
+    public void run() {
+      
+    } 
+  }
+
+
   public static void main(String[] args) {
 
     scanner = new Scanner(System.in);
