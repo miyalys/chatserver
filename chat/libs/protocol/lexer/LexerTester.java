@@ -1,4 +1,4 @@
-package chat.libs.protocol;
+package chat.libs.protocol.lexer;
 
 import java.util.List;
 
@@ -12,15 +12,17 @@ public class LexerTester {
   public static void main(String[] args) {
     System.out.println("Running Lexer Tester");
 
-    String testText1 = "DATA mjav:woot 123 ";
+    String testText1 = "DATA mjav mbq:woot 123 ";
     String testText2 = "DATA mjav ";
     String testText3 = "mjav";
     String testText4 = " JOIN ";
-    Lexer l = new Lexer();   
+
+    Language lang = new ChatLanguage();
+    Lexer l = new Lexer( lang.getTokenTypes() );
 
     System.out.println("About to Lex");
 
-    List<Token> tokens = l.lex(testText2);
+    List<Token> tokens = l.lex(testText1);
 
     if (tokens == null) {
       System.out.println("The input is a different language than the one expressed by the token types.");

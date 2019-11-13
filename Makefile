@@ -1,36 +1,55 @@
 # 1st letter: c = compile, r = run
-# 2nd letter: c = client, l = libs, s = server, le = lexer
 
 CC = javac12
 J = java12
 
-crs: all rs
+all: cs cc cl
+# Add ParserTester once it has been made
+#all: cs cc cl cp
 
-crc: all rc
-
-crl: cle rle
-
-all: cl cc cs
+# Server:
 
 cs:
 	$(CC) chat/server/*.java
 
-cc:
-	$(CC) chat/client/*.java
-
-cl:
-	$(CC) chat/libs/protocol/*.java
-	$(CC) chat/libs/*.java
-
-cle:
-	$(CC) chat/libs/protocol/LexerTester.java
-
 rs:
 	$(J) chat/server/ChatServer
+
+crs: all rs
+
+# Client:
+
+cc:
+	$(CC) chat/client/*.java
 
 rc:
 	$(J) chat/client/ChatClient
 
-rle:
-	$(J) chat/libs/protocol/LexerTester
+crc: all rc
+
+
+# Libs
+
+cl:
+	$(CC) chat/libs/*.java chat/libs/protocol/*.java
+
+# Lexer:
+
+cx: cl
+	$(CC) chat/libs/protocol/lexer/LexerTester.java
+
+rx:
+	$(J) chat/libs/protocol/lexer/LexerTester
 	cat tokens.txt
+
+crx: cx rx
+
+# Parser:
+
+cp: cl
+	$(CC) chat/libs/protocol/parser/ParserTester.java
+
+rp:
+	$(CC) chat/libs/protocol/parser/ParserTester
+
+crp: cp rp

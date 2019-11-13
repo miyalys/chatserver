@@ -1,4 +1,4 @@
-package chat.libs.protocol;
+package chat.libs.protocol.lexer;
 
 public class Token {
     

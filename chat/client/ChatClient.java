@@ -4,7 +4,9 @@ import java.util.Scanner;
 import java.io.*;
 import java.net.*;
 
-import chat.libs.protocol.Lexer;
+import chat.libs.protocol.lexer.Lexer;
+import chat.libs.protocol.parser.Parser;
+import chat.libs.protocol.ChatLanguage;
 import chat.libs.StaticLib;
 import chat.libs.Connection;
 
@@ -53,7 +55,8 @@ public class ChatClient {
 
 		var userName = getUserName();
 
-    var lexer = new Lexer();
+    ChatLanguage cl = new ChatLanguage();
+    var lexer = new Lexer(cl.getTokenTypes());
     // TODO: Actually use/test Lexer
     
     System.out.println("Before con");

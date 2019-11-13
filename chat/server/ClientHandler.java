@@ -3,7 +3,8 @@ package chat.server;
 import java.io.*;
 import java.net.*;
 
-import chat.libs.protocol.Lexer;
+import chat.libs.protocol.lexer.Lexer;
+import chat.libs.protocol.parser.Parser;
 import chat.libs.Connection;
 
 // TODO: Maybe call this class ClientHandler to separate it from Connection?
