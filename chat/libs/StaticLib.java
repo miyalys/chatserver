@@ -56,10 +56,6 @@ public class StaticLib {
     return ( !input.matches("[^0-9]") );
   }
 
-  public static boolean isValidUserName(String input) {
-    return ( input.length() <= 12 && !input.matches("[^a-zA-Z0-9_\\-]") );
-  }
-
   /**
   A character is considered to be a letter if its general category type, provided by getType(ch), is any of the following:
   UPPERCASE_LETTER
@@ -196,5 +192,4 @@ public class StaticLib {
     }
     catch (IOException e) { System.out.println(e); }
   }
-
 }

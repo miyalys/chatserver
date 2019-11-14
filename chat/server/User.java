@@ -15,27 +15,10 @@ public class User {
     heartbeat = 0;
   }
 
-  public String getUserName() {
-    return userName;
-  }
-
-  public ClientHandler getClientHandler() {
-    return clientHandler;
-  }
-
-  public int getHeartbeat() {
-    return heartbeat;
-  }
-
-  public void setUserName(String u) {
-    userName = u;
-  }
-
-  public void setClientHandler(ClientHandler c) {
-    clientHandler = c;
-  }
-
-  public void setHeartbeat(int h) {
-    heartbeat = h;
-  }
+  public String getUserName() { return userName; }
+  public ClientHandler getClientHandler() { return clientHandler; }
+  public int getHeartbeat() { return heartbeat; }
+  public void setUserName(String u) { userName = u; }
+  public void setClientHandler(ClientHandler c) { clientHandler = c; }
+  public void setHeartbeat(int h) { heartbeat = h; }
 }

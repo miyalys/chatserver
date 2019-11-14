@@ -23,14 +23,12 @@ public class Connection {
       in = new DataInputStream(socket.getInputStream());
       out = new DataOutputStream(socket.getOutputStream());
 
-      System.out.println("Connection running!");
+      //System.out.println("Connection running!");
     }
+    catch(EOFException e) {} // These will happen constantly when no input is received. Ignore them
     catch(IOException e) {
       System.out.println("IO: " +e);
-    }
-    finally {
-      System.out.println("Finally!");
-      //close();
+      close();
     }
   }
 
@@ -40,6 +38,6 @@ public class Connection {
       out.close();
       socket.close();
     }
-    catch (IOException e) {System.out.println("Closing: " + e);}
+    catch (IOException e) {System.out.println("Error closing: " + e);}
   }
 }

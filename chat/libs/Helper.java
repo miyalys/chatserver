@@ -2,10 +2,10 @@ package chat.libs;
 
 public class Helper {
 
-  // TODO: Implement this.
-  public boolean checkValidUsername(String username) {
-    return true;
-  }
   // public boolean checkValidIP(String ip) {}
   // public boolean checkValidPort(int port) {}
+
+  public static boolean isValidUserName(String input) {
+    return ( input.length() <= 12 && !input.matches("[^a-zA-Z0-9_\\-]") );
+  }
 }

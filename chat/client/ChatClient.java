@@ -21,12 +21,11 @@ public class ChatClient {
     
     String input = scanner.nextLine();
 
-    while (!StaticLib.isValidUserName(input) ) {
+    while (!Helper.isValidUserName(input) ) {
 			System.out.println("Invalid user name. The user name may only contain letters, numbers, - and _.");
 			System.out.println("Please type in another one:");
 			input = scanner.nextLine();
     }
-		System.out.println(input);
 		return input;
   }
 

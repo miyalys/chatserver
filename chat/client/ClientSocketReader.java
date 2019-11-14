@@ -15,7 +15,7 @@ public class ClientSocketReader implements Runnable {
       try {
         String in = con.in.readUTF();
 
-        //System.exit(-10);
+        // Server just prints out whatever it receives, for now. In the future also handle receiving a user list etc.
         System.out.println(in);
       }
       catch (EOFException e) {} // EOF exceptions will happen constantly when no message is received, so ignore them
