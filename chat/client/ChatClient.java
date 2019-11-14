@@ -7,8 +7,7 @@ import java.net.*;
 import chat.libs.protocol.lexer.Lexer;
 import chat.libs.protocol.parser.Parser;
 import chat.libs.protocol.ChatLanguage;
-import chat.libs.StaticLib;
-import chat.libs.Connection;
+import chat.libs.*;
 
 public class ChatClient { 
 
@@ -31,20 +30,7 @@ public class ChatClient {
 		return input;
   }
 
-  private class readFromServer implements Runnable {
-    private Connection con;
-
-    public readFromServer(Connection con) {
-      this.con = con;
-    }
-    public void run() {
-      
-    } 
-  }
-
-
-  public static void main(String[] args) {
-
+  private void start() {
     scanner = new Scanner(System.in);
     var port = 6666;
     Connection con = null;
@@ -56,15 +42,20 @@ public class ChatClient {
 		var userName = getUserName();
 
     ChatLanguage cl = new ChatLanguage();
-    var lexer = new Lexer(cl.getTokenTypes());
-    // TODO: Actually use/test Lexer
+    var tt = cl.getTokenTypes();
+    var lexer  = new Lexer(tt);
+    var parser = new Parser(tt, cl.getCommandTypes());
+    // TODO: Actually use/test Lexer + Parser
     
     System.out.println("Before con");
     try {
-      con = new Connection(new Socket("localhost", port) );
+      con = new Connection( new Socket("localhost", port) );
     }
     catch (IOException e) {e.printStackTrace();}
     System.out.println("After con");
+
+    // Spawn the thread for getting messages from the server
+    new Thread( new ClientSocketReader(con) ).start();
 
     try {
 			String input;
@@ -82,5 +73,10 @@ public class ChatClient {
     catch(IOException e){ 
       System.out.println(e);
     }
+
+  }
+
+  public static void main(String[] args) {
+    new ChatClient().start();
   }
 }

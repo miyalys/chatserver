@@ -1,4 +1,4 @@
-package chat.libs;
+package chat.server;
 
 public class Message {
 

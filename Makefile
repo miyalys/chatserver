@@ -31,12 +31,12 @@ crc: all rc
 # Libs
 
 cl:
+	$(CC) chat/libs/*.java chat/libs/*.java
 	$(CC) chat/libs/*.java chat/libs/protocol/*.java
+	$(CC) chat/libs/*.java chat/libs/protocol/lexer/*.java
+	$(CC) chat/libs/*.java chat/libs/protocol/parser/*.java
 
 # Lexer:
-
-cx: cl
-	$(CC) chat/libs/protocol/lexer/LexerTester.java
 
 rx:
 	$(J) chat/libs/protocol/lexer/LexerTester
@@ -45,9 +45,6 @@ rx:
 crx: cx rx
 
 # Parser:
-
-cp: cl
-	$(CC) chat/libs/protocol/parser/ParserTester.java
 
 rp:
 	$(CC) chat/libs/protocol/parser/ParserTester

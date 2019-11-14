@@ -1,5 +1,8 @@
 package chat.libs.protocol.lexer;
 
+import chat.libs.protocol.ChatLanguage;
+import chat.libs.protocol.Language;
+
 import java.util.List;
 
 // File writing (for testing)

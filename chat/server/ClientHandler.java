@@ -5,31 +5,45 @@ import java.net.*;
 
 import chat.libs.protocol.lexer.Lexer;
 import chat.libs.protocol.parser.Parser;
-import chat.libs.Connection;
+import chat.libs.*;
 
 // TODO: Maybe call this class ClientHandler to separate it from Connection?
 public class ClientHandler implements Runnable {
 
   private final Socket socket;
+  private final ChatServer chatServer;
+  private Connection con;
 
-  public ClientHandler(Socket socket) {
-    this.socket = socket;
+  public ClientHandler(Socket s, ChatServer cs) {
+    this.socket = s;
+    this.chatServer = cs;
+  }
+
+  public Socket getSocket() { return socket; }
+
+  public void receiveMessage(String msg) {
+    chatServer.receiveMessage(msg, this);
+  }
+
+  public void removeUser() {
+    chatServer.removeUser(this);
+  }
+
+  public void sendMessage(String msg) {
+
+    try {
+      con.out.writeUTF(msg);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+      return;
+    }
   }
 
   public void run() {
-    Connection con = new Connection(socket);
+    con = new Connection(socket);
 
-    while (true) {
-      try {
-        String str = con.in.readUTF();
-        System.out.println(str);
-      } catch (EOFException e) {
-        System.out.println("Client with socket " + socket + " closed the connection.");
-        return;
-      } catch (IOException e) {
-        e.printStackTrace();
-        return;
-      }
-    }
+    // Spawn a reader in a thread, and keep the sender in this thread
+    new Thread( new ServerSocketReader(con, this) ).start();
   }
 }

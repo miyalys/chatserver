@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import chat.libs.User;
+import chat.server.User;
 import chat.libs.Connection;
 import java.util.Optional;
 import java.util.Collections;
@@ -43,6 +43,26 @@ public class ChatServer {
     System.out.println("Starting server on port " + port + "...");
   }
 
+  public void receiveMessage(String msg, ClientHandler ch) {
+    // TODO: Do lexer/parser validation here to figure out which command and if it's valid
+    //System.out.println("Message received!");
+
+    // Send the message to all clients except the one it was received from
+    for (User u : users) {
+      if ( ! u.getClientHandler().equals(ch) ) {
+        u.getClientHandler().sendMessage(msg);
+      }
+    }
+  }
+
+  // Untested
+  public void removeUser(ClientHandler ch) {
+    for (User u : users) {
+      if ( u.getClientHandler().equals(ch) ) removeUser(u);
+    }
+  }
+
+
   public void acceptClients() {
     // TODO: Is 'users' or 'threadPool' responsible for gatekeeping the capacity?
     while (users.size() <= MAX_CAPACITY) {
@@ -50,8 +70,13 @@ public class ChatServer {
         Socket clientSocket = serverSocket.accept();
         System.out.println("A new connection from " + clientSocket + "!");
 
-        // Spawn a new thread for that user
-        threadPool.submit(new ClientHandler(clientSocket));
+        // Prepare to spawn a new thread for that user
+        ClientHandler ch = new ClientHandler(clientSocket, this);
+
+        // Keep track of all users/client in the users list
+        addUser( new User(ch) );
+
+        threadPool.submit(ch);
       } catch (IOException e) {
         e.printStackTrace();
       }

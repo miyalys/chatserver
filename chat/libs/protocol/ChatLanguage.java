@@ -49,7 +49,7 @@ public class ChatLanguage implements Language {
   public List<CommandType> getCommandTypes() {
     List joinTokens = new ArrayList<TokenType>(Arrays.asList( gtt("string"), gtt("comma"), gtt("ip"), gtt("colon"), gtt("number") )); // string, or should I create a dedicated username string?
     List okTokens   = new ArrayList<TokenType>(Arrays.asList( gtt("ok") ));
-    List erTokens   = new ArrayList<TokenType>(Arrays.asList( gtt("er"), gtt("err_code"), gtt("colon"), gtt("string") ));
+    List erTokens   = new ArrayList<TokenType>(Arrays.asList( gtt("er"), gtt("number"), gtt("colon"), gtt("string") ));
     List dataTokens = new ArrayList<TokenType>(Arrays.asList()); // recursive if the string TT shouldn't have spaces.
     List imavTokens = new ArrayList<TokenType>(Arrays.asList( gtt("imav") ));
     List quitTokens = new ArrayList<TokenType>(Arrays.asList( gtt("quit") ));
