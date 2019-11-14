@@ -7,7 +7,6 @@ import chat.libs.protocol.lexer.Lexer;
 import chat.libs.protocol.parser.Parser;
 import chat.libs.*;
 
-// TODO: Maybe call this class ClientHandler to separate it from Connection?
 public class ClientHandler implements Runnable {
 
   private final Socket socket;

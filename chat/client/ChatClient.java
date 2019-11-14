@@ -47,12 +47,12 @@ public class ChatClient {
     var parser = new Parser(tt, cl.getCommandTypes());
     // TODO: Actually use/test Lexer + Parser
     
-    System.out.println("Before con");
+    // System.out.println("Before con");
     try {
       con = new Connection( new Socket("localhost", port) );
     }
     catch (IOException e) {e.printStackTrace();}
-    System.out.println("After con");
+    // System.out.println("After con");
 
     // Spawn the thread for getting messages from the server
     new Thread( new ClientSocketReader(con) ).start();
